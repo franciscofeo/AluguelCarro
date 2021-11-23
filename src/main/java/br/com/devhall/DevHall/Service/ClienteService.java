@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Optional;
 
 
@@ -20,9 +21,12 @@ public class ClienteService {
 
     private final ClienteRepository clienteRepository;
 
+    private final CarroService carroService;
+
     @Autowired
-    public ClienteService(ClienteRepository clienteRepository) {
+    public ClienteService(ClienteRepository clienteRepository, CarroService carroService) {
         this.clienteRepository = clienteRepository;
+        this.carroService = carroService;
     }
 
     public Iterable<Cliente> listarTodos(int pag){
@@ -30,7 +34,7 @@ public class ClienteService {
         return clienteRepository.findAll(pagina);
     }
 
-    public Iterable<Cliente> listarNome(String nome){
+    public Iterable<Cliente> buscarNome(String nome){
         return clienteRepository.findByNomeContaining(nome);
     }
 
@@ -43,22 +47,30 @@ public class ClienteService {
         }
     }
 
+    public Iterable<Cliente> buscarCpf(String cpf){
+        return clienteRepository.findByCpfContaining(cpf);
+    }
+
     public ResponseEntity<Cliente> salvar(Cliente cliente){
         cliente.setCreated_at(LocalDateTime.now());
         clienteRepository.save(cliente);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    public ResponseEntity<Cliente> atualizar(Long id, String nome, String cpf, LocalDate dataNascimento, Carro carro){
+    public ResponseEntity<Cliente> atualizar(Long id, String nome, String cpf, String dataN, Long carroID){
         Optional<Cliente> cliente = clienteRepository.findById(id);
 
         if(cliente.isPresent()){
             Cliente cliente_existente = cliente.get();
+
+            DateTimeFormatter formatador = DateTimeFormatter.ofPattern("d/MM/yyyy");
+            LocalDate dataNascimento = LocalDate.parse(dataN, formatador);
+
             cliente_existente.setUpdated_at(LocalDateTime.now()); // colocando automatico o updated_at
             cliente_existente.setNome(nome);
             cliente_existente.setCpf(cpf);
             cliente_existente.setDataNascimento(dataNascimento);
-            cliente_existente.setCarro_alugado(carro);
+            cliente_existente.setCarro_alugado(carroService.buscarId(id));
             clienteRepository.save(cliente_existente);
 
             return new ResponseEntity<>(HttpStatus.OK);
@@ -96,6 +108,17 @@ public class ClienteService {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
 
+    }
+
+    public ResponseEntity<Cliente> deletar(Long id){
+        Optional<Cliente> cliente = clienteRepository.findById(id);
+        if(cliente.isPresent()){
+            Cliente cliente_existente = cliente.get();
+            clienteRepository.delete(cliente_existente);
+            return new ResponseEntity<>(HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
     }
 
 
