@@ -1,5 +1,7 @@
 package br.com.devhall.DevHall.Model;
 
+import org.apache.tomcat.jni.Local;
+
 import javax.persistence.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -14,7 +16,7 @@ public class Cliente {
     @Column(nullable = false, length = 50)
     private String nome;
 
-    @Column(nullable = false)
+    @Column(nullable = false, unique = true)
     private String cpf;
 
     @OneToOne(cascade = CascadeType.ALL)
