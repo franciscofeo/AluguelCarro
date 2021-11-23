@@ -20,6 +20,11 @@ public class Carro {
     public Carro() {
     }
 
+    public Carro(String marca, String modelo){
+        this.marca = marca;
+        this.modelo = modelo;
+    }
+
     public Carro(String marca, String modelo, LocalDate dataCadastro) {
         this.marca = marca;
         this.modelo = modelo;

@@ -2,8 +2,11 @@ package br.com.devhall.DevHall.Service;
 
 import br.com.devhall.DevHall.Model.Carro;
 import br.com.devhall.DevHall.Repository.CarroRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Optional;
 
@@ -12,12 +15,22 @@ public class CarroService {
 
     private final CarroRepository carroRepository;
 
+    @Autowired
     public CarroService(CarroRepository carroRepository) {
         this.carroRepository = carroRepository;
     }
 
     public List<Carro> listarTodos(){
         return carroRepository.findAll();
+    }
+
+    public Carro buscarId(Long id){
+        if(carroRepository.findById(id).isPresent()){
+            return carroRepository.findById(id).get();
+        } else {
+            System.out.println("Carro não encontrado.");
+            return null;
+        }
     }
 
     public List<Carro> listarModelo(String modelo){
@@ -29,6 +42,7 @@ public class CarroService {
     }
 
     public void salvar(Carro carro){
+        carro.setDataCadastro(LocalDate.now());
         carroRepository.save(carro);
     }
 
