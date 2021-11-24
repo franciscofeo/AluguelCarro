@@ -30,9 +30,6 @@ public class Cliente {
     private Carro carroAlugado;
 
     @Column(name = "data_nascimento")
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy")
-    @JsonDeserialize(using = LocalDateDeserializer.class)
-    @JsonSerialize(using = LocalDateSerializer.class)
     private LocalDate dataNascimento;
 
     @CreationTimestamp
@@ -79,8 +76,8 @@ public class Cliente {
         return carroAlugado;
     }
 
-    public void setCarroAlugado(Carro carro_alugado) {
-        this.carroAlugado = carro_alugado;
+    public void setCarroAlugado(Carro carroAlugado) {
+        this.carroAlugado = carroAlugado;
     }
 
     public LocalDate getDataNascimento() {

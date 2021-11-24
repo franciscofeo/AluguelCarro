@@ -37,8 +37,8 @@ public class ClienteDTO {
         return carroAlugado;
     }
 
-    public void setCarro_alugado(CarroDTO carro_alugado) {
-        this.carroAlugado = carro_alugado;
+    public void setCarroAlugado(CarroDTO carroAlugado) {
+        this.carroAlugado = carroAlugado;
     }
 
     public String getNome() {

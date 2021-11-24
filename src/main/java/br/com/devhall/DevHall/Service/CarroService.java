@@ -47,7 +47,6 @@ public class CarroService {
     }
 
     public ResponseEntity<Carro> salvar(Carro carro){
-        carro.setDataCadastro(LocalDate.now());
         carroRepository.save(carro);
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
