@@ -1,7 +1,8 @@
 
 # Aluguel de Carros 🚗 
 
-Essa é uma API para um sistema de gerenciamento de aluguel de carros, foram criadas duas tabelas "Clientes" e "Carros" onde existe um relacionamento unidirecional entre elas.
+Essa é uma API Rest para um sistema de gerenciamento de aluguel de carros, foram criadas duas tabelas "Clientes" e "Carros" onde existe um relacionamento unidirecional entre elas. Para o desenvolvimento, utilizei o padrão MVC.
+
 ## Acessando a API
 
 Você pode usar a API a partir desse endereço [Aluguel de Carros](https://aluguel-carros.herokuapp.com/swagger-ui/index.html?configUrl=/v3/api-docs/swagger-config). A API está documentada com o *Swagger*, assim nessa página já é possível encontrar os endpoints e alguns exemplos sobre como utilizar a API.
