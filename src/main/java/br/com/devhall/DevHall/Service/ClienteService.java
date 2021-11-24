@@ -1,6 +1,5 @@
 package br.com.devhall.DevHall.Service;
 
-import br.com.devhall.DevHall.Model.Carro;
 import br.com.devhall.DevHall.Model.Cliente;
 import br.com.devhall.DevHall.Repository.ClienteRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,7 +10,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Optional;
 
@@ -52,7 +50,6 @@ public class ClienteService {
     }
 
     public ResponseEntity<Cliente> salvar(Cliente cliente){
-        cliente.setCreated_at(LocalDateTime.now());
         clienteRepository.save(cliente);
         return new ResponseEntity<>(HttpStatus.OK);
     }
@@ -66,11 +63,10 @@ public class ClienteService {
             DateTimeFormatter formatador = DateTimeFormatter.ofPattern("d/MM/yyyy");
             LocalDate dataNascimento = LocalDate.parse(dataN, formatador);
 
-            cliente_existente.setUpdated_at(LocalDateTime.now()); // colocando automatico o updated_at
             cliente_existente.setNome(nome);
             cliente_existente.setCpf(cpf);
             cliente_existente.setDataNascimento(dataNascimento);
-            cliente_existente.setCarro_alugado(carroService.buscarId(id));
+            cliente_existente.setCarroAlugado(carroService.buscarId(id));
             clienteRepository.save(cliente_existente);
 
             return new ResponseEntity<>(HttpStatus.OK);
@@ -85,7 +81,6 @@ public class ClienteService {
 
         if(cliente.isPresent()){
             Cliente cliente_existente = cliente.get();
-            cliente_existente.setUpdated_at(LocalDateTime.now());
             cliente_existente.setNome(nome);
             clienteRepository.save(cliente_existente);
             return new ResponseEntity<>(HttpStatus.OK);
@@ -100,7 +95,6 @@ public class ClienteService {
 
         if(cliente.isPresent()){
             Cliente cliente_existente = cliente.get();
-            cliente_existente.setUpdated_at(LocalDateTime.now());
             cliente_existente.setCpf(cpf);
             clienteRepository.save(cliente_existente);
             return new ResponseEntity<>(HttpStatus.OK);

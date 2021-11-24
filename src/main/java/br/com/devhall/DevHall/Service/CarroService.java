@@ -23,6 +23,7 @@ public class CarroService {
         this.carroRepository = carroRepository;
     }
 
+
     public Iterable<Carro> listarTodos(int pag){
         Pageable pagina = PageRequest.of(pag, 5);
         return carroRepository.findAll(pagina);

@@ -1,6 +1,5 @@
 package br.com.devhall.DevHall.Controller;
 
-import br.com.devhall.DevHall.DTO.ClienteDTO;
 import br.com.devhall.DevHall.Model.Cliente;
 import br.com.devhall.DevHall.Service.ClienteService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,7 +17,7 @@ public class ClienteController {
         this.clienteService = clienteService;
     }
 
-    @GetMapping(path = "/todos")
+    @GetMapping(path = "/buscar/todos")
     public Iterable<Cliente> listarTodos(@RequestParam int pag){
         return clienteService.listarTodos(pag);
     }
@@ -39,8 +38,8 @@ public class ClienteController {
     }
 
     @PostMapping(path = "/admin/salvar")
-    public ResponseEntity<Cliente> salvar(@RequestBody ClienteDTO cliente){
-        return clienteService.salvar(cliente.dtoToCLiente());
+    public ResponseEntity<Cliente> salvar(@RequestBody Cliente cliente){
+        return clienteService.salvar(cliente);
     }
 
     @DeleteMapping(path = "/admin/remover/{id}")

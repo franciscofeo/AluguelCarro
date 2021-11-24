@@ -1,6 +1,12 @@
 package br.com.devhall.DevHall.Model;
 
-import org.apache.tomcat.jni.Local;
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateDeserializer;
+import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateSerializer;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
 import java.time.LocalDate;
@@ -10,7 +16,7 @@ import java.time.LocalDateTime;
 public class Cliente {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(nullable = false, length = 50)
@@ -21,22 +27,27 @@ public class Cliente {
 
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "carro_id", referencedColumnName = "id")
-    private Carro carro_alugado;
+    private Carro carroAlugado;
 
     @Column(name = "data_nascimento")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy")
+    @JsonDeserialize(using = LocalDateDeserializer.class)
+    @JsonSerialize(using = LocalDateSerializer.class)
     private LocalDate dataNascimento;
 
-    private LocalDateTime created_at;
+    @CreationTimestamp
+    private LocalDateTime createdAt;
 
-    private LocalDateTime updated_at;
+    @UpdateTimestamp
+    private LocalDateTime updatedAt;
 
     public Cliente() {
     }
 
-    public Cliente(String nome, String cpf, LocalDate dataNascimento, Carro carro_alugado) {
+    public Cliente(String nome, String cpf, LocalDate dataNascimento, Carro carroAlugado) {
         this.nome = nome;
         this.cpf = cpf;
-        this.carro_alugado = carro_alugado;
+        this.carroAlugado = carroAlugado;
         this.dataNascimento = dataNascimento;
     }
 
@@ -64,12 +75,12 @@ public class Cliente {
         this.cpf = cpf;
     }
 
-    public Carro getCarro_alugado() {
-        return carro_alugado;
+    public Carro getCarroAlugado() {
+        return carroAlugado;
     }
 
-    public void setCarro_alugado(Carro carro_alugado) {
-        this.carro_alugado = carro_alugado;
+    public void setCarroAlugado(Carro carro_alugado) {
+        this.carroAlugado = carro_alugado;
     }
 
     public LocalDate getDataNascimento() {
@@ -80,19 +91,19 @@ public class Cliente {
         this.dataNascimento = dataNascimento;
     }
 
-    public LocalDateTime getCreated_at() {
-        return created_at;
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
     }
 
-    public void setCreated_at(LocalDateTime created_at) {
-        this.created_at = created_at;
+    public void setCreatedAt(LocalDateTime created_at) {
+        this.createdAt = created_at;
     }
 
-    public LocalDateTime getUpdated_at() {
-        return updated_at;
+    public LocalDateTime getUpdatedAt() {
+        return updatedAt;
     }
 
-    public void setUpdated_at(LocalDateTime updated_at) {
-        this.updated_at = updated_at;
+    public void setUpdatedAt(LocalDateTime updated_at) {
+        this.updatedAt = updated_at;
     }
 }
