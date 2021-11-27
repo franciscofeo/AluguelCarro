@@ -3,6 +3,9 @@ package br.com.devhall.DevHall.Service;
 import br.com.devhall.DevHall.Model.Cliente;
 import br.com.devhall.DevHall.Repository.ClienteRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
@@ -27,6 +30,7 @@ public class ClienteService {
         this.carroService = carroService;
     }
 
+    @Cacheable(cacheNames = "Cliente", key = "#root.method.name")
     public Iterable<Cliente> listarTodos(int pag){
         Pageable pagina = PageRequest.of(pag, 5);
         return clienteRepository.findAll(pagina);
@@ -36,6 +40,7 @@ public class ClienteService {
         return clienteRepository.findByNomeContaining(nome);
     }
 
+    @Cacheable(cacheNames = "Cliente", key = "#id")
     public Cliente buscarId(Long id){
         if(clienteRepository.findById(id).isPresent()){
             return clienteRepository.findById(id).get();
@@ -49,6 +54,7 @@ public class ClienteService {
         return clienteRepository.findByCpfContaining(cpf);
     }
 
+    @CacheEvict(cacheNames = "Cliente", allEntries = true)
     public ResponseEntity<Cliente> salvar(Cliente cliente){
         clienteRepository.save(cliente);
         return new ResponseEntity<>(HttpStatus.OK);
@@ -67,9 +73,8 @@ public class ClienteService {
             cliente_existente.setCpf(cpf);
             cliente_existente.setDataNascimento(dataNascimento);
             cliente_existente.setCarroAlugado(carroService.buscarId(id));
-            clienteRepository.save(cliente_existente);
 
-            return new ResponseEntity<>(HttpStatus.OK);
+            return salvar(cliente_existente);
         } else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
@@ -82,8 +87,7 @@ public class ClienteService {
         if(cliente.isPresent()){
             Cliente cliente_existente = cliente.get();
             cliente_existente.setNome(nome);
-            clienteRepository.save(cliente_existente);
-            return new ResponseEntity<>(HttpStatus.OK);
+            return salvar(cliente_existente);
         } else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
@@ -96,14 +100,14 @@ public class ClienteService {
         if(cliente.isPresent()){
             Cliente cliente_existente = cliente.get();
             cliente_existente.setCpf(cpf);
-            clienteRepository.save(cliente_existente);
-            return new ResponseEntity<>(HttpStatus.OK);
+            return salvar(cliente_existente);
         } else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
 
     }
 
+    @CacheEvict(cacheNames = "Cliente", key = "#id")
     public ResponseEntity<Cliente> deletar(Long id){
         Optional<Cliente> cliente = clienteRepository.findById(id);
         if(cliente.isPresent()){

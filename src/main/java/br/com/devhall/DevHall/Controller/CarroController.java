@@ -4,6 +4,7 @@ import br.com.devhall.DevHall.DTO.CarroDTO;
 import br.com.devhall.DevHall.Model.Carro;
 import br.com.devhall.DevHall.Service.CarroService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -29,12 +30,12 @@ public class CarroController {
         return carroService.atualizar(id, marca, modelo);
     }
 
-    @PutMapping(path = "/admin/attmarca/{id}")
+    @PatchMapping(path = "/admin/attmarca/{id}")
     public ResponseEntity<Carro> atualizarMarca(@PathVariable Long id,@RequestParam String marca){
         return carroService.atualizarMarca(id, marca);
     }
 
-    @PutMapping(path = "/admin/attmodelo/{id}")
+    @PatchMapping(path = "/admin/attmodelo/{id}")
     public ResponseEntity<Carro> atualizarModelo(@PathVariable Long id, @RequestParam String modelo){
         return carroService.atualizarModelo(id, modelo);
     }
