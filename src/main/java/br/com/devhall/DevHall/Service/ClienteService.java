@@ -1,10 +1,10 @@
 package br.com.devhall.DevHall.Service;
 
 import br.com.devhall.DevHall.Model.Cliente;
+import br.com.devhall.DevHall.Repository.CarroRepository;
 import br.com.devhall.DevHall.Repository.ClienteRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
-import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -22,12 +22,13 @@ import java.util.Optional;
 public class ClienteService {
 
     private final ClienteRepository clienteRepository;
-
     private final CarroService carroService;
+    private final CarroClienteService carroClienteService;
 
     @Autowired
-    public ClienteService(ClienteRepository clienteRepository, CarroService carroService) {
+    public ClienteService(ClienteRepository clienteRepository, CarroClienteService carroClienteService, CarroService carroService) {
         this.clienteRepository = clienteRepository;
+        this.carroClienteService = carroClienteService;
         this.carroService = carroService;
     }
 
@@ -58,8 +59,15 @@ public class ClienteService {
     @CacheEvict(cacheNames = "Cliente", allEntries = true)
     @Transactional
     public ResponseEntity<Cliente> salvar(Cliente cliente){
-        clienteRepository.save(cliente);
-        return new ResponseEntity<>(HttpStatus.OK);
+        String modeloCarroCliente = cliente.getCarroAlugado().getModelo();
+        if(carroService.listarModeloExato(modeloCarroCliente) != null){
+            clienteRepository.save(cliente);
+            return new ResponseEntity<>(HttpStatus.CREATED);
+        } else {
+            System.out.println("Carro não encontrado na tabela 'Carro'.");
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+
     }
 
     public ResponseEntity<Cliente> atualizar(Long id, String nome, String cpf, String dataN, Long carroID){
@@ -74,7 +82,7 @@ public class ClienteService {
             cliente_existente.setNome(nome);
             cliente_existente.setCpf(cpf);
             cliente_existente.setDataNascimento(dataNascimento);
-            cliente_existente.setCarroAlugado(carroService.buscarId(id));
+            cliente_existente.setCarroAlugado(carroClienteService.buscarId(id));
 
             return salvar(cliente_existente);
         } else {

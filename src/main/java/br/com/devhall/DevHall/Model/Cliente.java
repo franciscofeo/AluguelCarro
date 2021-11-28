@@ -1,10 +1,5 @@
 package br.com.devhall.DevHall.Model;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateDeserializer;
-import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateSerializer;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
@@ -27,7 +22,7 @@ public class Cliente {
 
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "carro_id", referencedColumnName = "id")
-    private Carro carroAlugado;
+    private CarroCliente carroClienteAlugado;
 
     @Column(name = "data_nascimento")
     private LocalDate dataNascimento;
@@ -41,10 +36,10 @@ public class Cliente {
     public Cliente() {
     }
 
-    public Cliente(String nome, String cpf, LocalDate dataNascimento, Carro carroAlugado) {
+    public Cliente(String nome, String cpf, LocalDate dataNascimento, CarroCliente carroClienteAlugado) {
         this.nome = nome;
         this.cpf = cpf;
-        this.carroAlugado = carroAlugado;
+        this.carroClienteAlugado = carroClienteAlugado;
         this.dataNascimento = dataNascimento;
     }
 
@@ -72,12 +67,12 @@ public class Cliente {
         this.cpf = cpf;
     }
 
-    public Carro getCarroAlugado() {
-        return carroAlugado;
+    public CarroCliente getCarroAlugado() {
+        return carroClienteAlugado;
     }
 
-    public void setCarroAlugado(Carro carroAlugado) {
-        this.carroAlugado = carroAlugado;
+    public void setCarroAlugado(CarroCliente carroClienteAlugado) {
+        this.carroClienteAlugado = carroClienteAlugado;
     }
 
     public LocalDate getDataNascimento() {

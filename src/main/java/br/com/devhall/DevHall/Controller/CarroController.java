@@ -1,10 +1,10 @@
 package br.com.devhall.DevHall.Controller;
 
+
 import br.com.devhall.DevHall.DTO.CarroDTO;
 import br.com.devhall.DevHall.Model.Carro;
 import br.com.devhall.DevHall.Service.CarroService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -26,12 +26,12 @@ public class CarroController {
     }
 
     @PutMapping(path = "/admin/atualizar/{id}")
-    public ResponseEntity<Carro> atualizar(@PathVariable Long id,@RequestParam String marca,@RequestParam String modelo){
+    public ResponseEntity<Carro> atualizar(@PathVariable Long id, @RequestParam String marca, @RequestParam String modelo){
         return carroService.atualizar(id, marca, modelo);
     }
 
     @PatchMapping(path = "/admin/attmarca/{id}")
-    public ResponseEntity<Carro> atualizarMarca(@PathVariable Long id,@RequestParam String marca){
+    public ResponseEntity<Carro> atualizarMarca(@PathVariable Long id, @RequestParam String marca){
         return carroService.atualizarMarca(id, marca);
     }
 

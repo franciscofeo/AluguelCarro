@@ -1,19 +1,18 @@
 package br.com.devhall.DevHall.DTO;
 
-import br.com.devhall.DevHall.Model.Carro;
+import br.com.devhall.DevHall.Model.CarroCliente;
 
-
-public class CarroDTO {
+public class CarroClienteDTO {
 
     private String marca;
 
     private String modelo;
 
-    public Carro dtoToCarro(){
-        return new Carro(this.marca, this.modelo);
+    public CarroCliente dtoToCarro(){
+        return new CarroCliente(this.marca, this.modelo);
     }
 
-    public CarroDTO() {
+    public CarroClienteDTO() {
     }
 
     public String getMarca() {

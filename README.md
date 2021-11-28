@@ -15,7 +15,7 @@ Você pode usar a API a partir desse endereço [Aluguel de Carros](https://alugu
  - [Hibernate](https://hibernate.org/)
  - [H2 Database](https://www.h2database.com/html/main.html)
  - [Swagger](https://swagger.io/)
- - [Redis] (https://redis.io/)
+ - [Redis](https://redis.io/)
 
 ## Licença
 

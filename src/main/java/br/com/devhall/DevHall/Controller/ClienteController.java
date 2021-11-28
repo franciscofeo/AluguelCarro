@@ -63,8 +63,4 @@ public class ClienteController {
         return clienteService.atualizarCpf(id, cpf);
     }
 
-
-
-
-
 }

@@ -1,5 +1,6 @@
 package br.com.devhall.DevHall.Service;
 
+
 import br.com.devhall.DevHall.Model.Carro;
 import br.com.devhall.DevHall.Repository.CarroRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,9 +9,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -43,22 +42,26 @@ public class CarroService {
         return carroRepository.findByModeloContaining(modelo);
     }
 
+    public Carro listarModeloExato(String modelo){
+        return carroRepository.findByModeloIs(modelo);
+    }
+
     public List<Carro> listarMarca(String marca){
         return carroRepository.findByMarcaContaining(marca);
     }
 
-    @Transactional
-    public ResponseEntity<Carro> salvar(Carro carro){
-        carroRepository.save(carro);
+
+    public ResponseEntity<Carro> salvar(Carro carroCliente){
+        carroRepository.save(carroCliente);
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
     public ResponseEntity<Carro> atualizarModelo(Long id, String modelo){
         Optional<Carro> carro = carroRepository.findById(id);
         if(carro.isPresent()){
-            Carro carro_encontrado = carro.get();
-            carro_encontrado.setModelo(modelo);
-            carroRepository.save(carro_encontrado);
+            Carro carro_Cliente_encontrado = carro.get();
+            carro_Cliente_encontrado.setModelo(modelo);
+            carroRepository.save(carro_Cliente_encontrado);
             return new ResponseEntity<>(HttpStatus.OK);
         } else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
@@ -68,9 +71,9 @@ public class CarroService {
     public ResponseEntity<Carro> atualizarMarca(Long id, String marca){
         Optional<Carro> carro = carroRepository.findById(id);
         if(carro.isPresent()){
-            Carro carro_encontrado = carro.get();
-            carro_encontrado.setMarca(marca);
-            carroRepository.save(carro_encontrado);
+            Carro carro_Cliente_encontrado = carro.get();
+            carro_Cliente_encontrado.setMarca(marca);
+            carroRepository.save(carro_Cliente_encontrado);
             return new ResponseEntity<>(HttpStatus.OK);
         } else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
@@ -80,10 +83,10 @@ public class CarroService {
     public ResponseEntity<Carro> atualizar(Long id, String modelo, String marca){
         Optional<Carro> carro = carroRepository.findById(id);
         if(carro.isPresent()){
-            Carro carro_encontrado = carro.get();
-            carro_encontrado.setModelo(modelo);
-            carro_encontrado.setMarca(marca);
-            carroRepository.save(carro_encontrado);
+            Carro carro_Cliente_encontrado = carro.get();
+            carro_Cliente_encontrado.setModelo(modelo);
+            carro_Cliente_encontrado.setMarca(marca);
+            carroRepository.save(carro_Cliente_encontrado);
             return new ResponseEntity<>(HttpStatus.OK);
         } else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);

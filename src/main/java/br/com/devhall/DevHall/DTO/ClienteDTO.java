@@ -1,6 +1,5 @@
 package br.com.devhall.DevHall.DTO;
 
-import br.com.devhall.DevHall.Model.Carro;
 import br.com.devhall.DevHall.Model.Cliente;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
@@ -21,7 +20,7 @@ public class ClienteDTO {
     @JsonDeserialize(using = LocalDateDeserializer.class)
     @JsonSerialize(using = LocalDateSerializer.class)
     private LocalDate dataNascimento;
-    private CarroDTO carroAlugado;
+    private CarroClienteDTO carroAlugado;
 
 
     public ClienteDTO(){
@@ -33,11 +32,11 @@ public class ClienteDTO {
     }
 
 
-    public CarroDTO getCarro_alugado() {
+    public CarroClienteDTO getCarro_alugado() {
         return carroAlugado;
     }
 
-    public void setCarroAlugado(CarroDTO carroAlugado) {
+    public void setCarroAlugado(CarroClienteDTO carroAlugado) {
         this.carroAlugado = carroAlugado;
     }
 
