@@ -7,13 +7,13 @@ Essa é uma API Rest para um sistema de gerenciamento de aluguel de carros, fora
 
 Para utilizar a API é necessário escrever o seguinte comando para o container docker instalar o Redis:
 
-```
-docker run -it --name redis -p 6379:6379 redis:5.0
+```java
+docker run -it --name redis -p 6379:6379 redis:5.0.3
 ```
 
 Com o comando acima funcionando, basta entrar na pasta raiz do projeto e escrever (lembre-se de ter o Maven instalado):
 
-```
+```java
 mvn spring-boot:run
 ```
 
