@@ -11,6 +11,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -30,7 +31,7 @@ public class ClienteService {
         this.carroService = carroService;
     }
 
-    @Cacheable(cacheNames = "Cliente", key = "#root.method.name")
+
     public Iterable<Cliente> listarTodos(int pag){
         Pageable pagina = PageRequest.of(pag, 5);
         return clienteRepository.findAll(pagina);
@@ -55,6 +56,7 @@ public class ClienteService {
     }
 
     @CacheEvict(cacheNames = "Cliente", allEntries = true)
+    @Transactional
     public ResponseEntity<Cliente> salvar(Cliente cliente){
         clienteRepository.save(cliente);
         return new ResponseEntity<>(HttpStatus.OK);
